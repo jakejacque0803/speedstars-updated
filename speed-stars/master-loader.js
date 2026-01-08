@@ -1,72 +1,79 @@
 "use strict";
 
 /**
- * Master loader for Unity WebGL + Poki SDK
- * Behavior is unchanged — this version is only cleaned and documented.
+ * Master Loader for Unity WebGL + Poki SDK
+ * Polished for readability, safety, and performance.
  */
 
-// Get the current script URL to determine root path
-const scripts = document.getElementsByTagName("script");
-const currentScriptUrl = scripts[scripts.length - 1].src;
-let rootPath = currentScriptUrl.split("master-loader.js")[0];
+// Enable debug logs if needed
+const DEBUG = false;
+const log = (...args) => DEBUG && console.log("[Loader]", ...args);
 
-// Available Unity loaders
+// Get current script path
+const scripts = document.getElementsByTagName("script");
+const currentScript = scripts[scripts.length - 1];
+let rootPath = currentScript.src.replace("master-loader.js", "");
+
+// Supported Unity loaders
 const loaders = {
   unity: "unity.js",
   "unity-beta": "./unity-beta.js",
-  "unity-2020": "./unity-2020.js"
+  "unity-2020": "./unity-2020.js",
 };
 
-// Special case: force local loaders (used for testing/debugging)
+// Force local loaders for testing
 if (window.location.href.includes("pokiForceLocalLoader")) {
   loaders.unity = "/unity.js";
   loaders["unity-beta"] = "/unity-beta/dist/unity-beta.js";
   loaders["unity-2020"] = "/unity-2020/dist/unity-2020.js";
   rootPath = "/loaders";
+  log("Using local loaders");
 }
 
 // Ensure config exists
 if (!window.config) {
-  throw new Error("window.config not found");
+  throw new Error("window.config is missing. Cannot start game.");
 }
 
-// Resolve loader from config
+// Resolve loader
 const loaderPath = loaders[window.config.loader];
 if (!loaderPath) {
-  throw new Error(`Loader "${window.config.loader}" not found`);
+  throw new Error(`Unknown loader type: ${window.config.loader}`);
 }
 
-// Set default Unity WebGL loader if not defined
+// Set Unity WebGL loader if missing
 if (!window.config.unityWebglLoaderUrl) {
-  const versionParts = window.config.unityVersion
-    ? window.config.unityVersion.split(".")
-    : [];
+  const version = window.config.unityVersion || "";
+  const [year, minor] = version.split(".");
 
-  const year = versionParts[0];
-  const minor = versionParts[1];
-
-  switch (year) {
-    case "2019":
-      window.config.unityWebglLoaderUrl =
-        minor === "1"
-          ? "./UnityLoader.2019.1.js"
-          : "./UnityLoader.2019.2.js";
-      break;
-    default:
-      window.config.unityWebglLoaderUrl = "./UnityLoader.js";
+  if (year === "2019") {
+    window.config.unityWebglLoaderUrl =
+      minor === "1" ? "./UnityLoader.2019.1.js" : "./UnityLoader.2019.2.js";
+  } else {
+    window.config.unityWebglLoaderUrl = "./UnityLoader.js";
   }
 }
 
 // Load Poki SDK first
 const pokiSdkScript = document.createElement("script");
 pokiSdkScript.src = "./poki-sdk.js";
+pokiSdkScript.defer = true;
 
-// Once Poki SDK is loaded, load the Unity loader
 pokiSdkScript.onload = () => {
+  log("Poki SDK loaded");
+
   const unityLoaderScript = document.createElement("script");
   unityLoaderScript.src = rootPath + loaderPath;
+  unityLoaderScript.defer = true;
+
+  unityLoaderScript.onload = () => log("Unity loader loaded");
+  unityLoaderScript.onerror = () =>
+    console.error("Failed to load Unity loader:", unityLoaderScript.src);
+
   document.body.appendChild(unityLoaderScript);
 };
 
-// Inject Poki SDK into the page
+pokiSdkScript.onerror = () =>
+  console.error("Failed to load Poki SDK");
+
 document.body.appendChild(pokiSdkScript);

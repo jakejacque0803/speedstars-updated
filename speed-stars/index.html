@@ -1,81 +1,39 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <title>Speed Stars</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Speed Stars</title>
+	<script>
+	window.config = {
+		loader: 'unity-2020',
+		debug: false,
+		maxRatio: 24 / 9,
+		minRatio: 9 / 24,
 
-  <!-- Mobile support -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		title: 'Speed Stars',
+		thumbnail: 'https:\/\/img.poki-cdn.com\/04f09e51e79fd1b6a5cc974b504d6379.png',
+		numScreenshots:  0 ,
 
-  <!-- SEO -->
-  <meta name="description" content="Speed Stars – A fast-paced sprinting game. Time your rhythm and race to victory!" />
+		unityVersion: '2022.3.19f1',
+		unityWebglBuildUrl: '',
 
-  <!-- Social preview -->
-  <meta property="og:title" content="Speed Stars" />
-  <meta property="og:description" content="Test your speed in this rhythm-based sprinting game!" />
-  <meta property="og:image" content="https://img.poki-cdn.com/04f09e51e79fd1b6a5cc974b504d6379.png" />
-
-  <style>
-    body {
-      margin: 0;
-      background: #231F20;
-      overflow: hidden;
-    }
-  </style>
-
-  <script>
-    /**
-     * Global configuration for master-loader.js
-     * IMPORTANT: unityWebglBuildUrl is now correctly set
-     */
-    window.config = {
-      loader: "unity-2020",
-      debug: false,
-
-      maxRatio: 24 / 9,
-      minRatio: 9 / 24,
-
-      title: "Speed Stars",
-      thumbnail: "https://img.poki-cdn.com/04f09e51e79fd1b6a5cc974b504d6379.png",
-
-      unityVersion: "2022.3.19f1",
-
-      // 🔧 THIS FIXES THE 0% LOADING ISSUE
-      unityWebglBuildUrl: "./Build",
-
-      fileSize: 37,
-
-      cachedDecompressedFileSizes: {
-        "6127fbba3e79cbcada24ba1ffd033f77.data": 13472152,
-        "Build_v2-40w.loader.js": 20642,
-        "b0e5ec181474d494c6ff3c9ad9c3b1bd.js": 405098,
-        "fe2a5824416bebe1cc941510618103f9.wasm": 23552919
-      },
-
-      metadata: {
-        background_color: "#231F20",
-        product_name: "Speed Stars",
-        product_version: "2.40",
-        width: "640",
-        height: "360"
-      }
-    };
-  </script>
+		fileSize:  37 ,
+		cachedDecompressedFileSizes: {
+			'6127fbba3e79cbcada24ba1ffd033f77.data':  13472152 ,
+			'Build_v2-40w.loader.js':  20642 ,
+			'b0e5ec181474d494c6ff3c9ad9c3b1bd.js':  405098 ,
+			'fe2a5824416bebe1cc941510618103f9.wasm':  23552919 ,
+		},
+		"metadata": {"poki_template_version":1,"background_color":"#231F20","code_filename":"fe2a5824416bebe1cc941510618103f9.wasm","company_name":"Luke Doukakis","data_filename":"6127fbba3e79cbcada24ba1ffd033f77.data","development_player":"false","framework_filename":"b0e5ec181474d494c6ff3c9ad9c3b1bd.js","height":"360","loader_filename":"Build_v2-40w.loader.js","product_name":"Speed Stars","product_version":"2.40","splash_screen_style":"Dark","unity_version":"2022.3.19f1","use_data_caching":"true","use_threads":"false","use_wasm":"true","use_webgl_1_0":"false","use_webgl_2_0":"true","width":"640"}
+	};
+	</script>
+<!-- will be copied to the resulting head //-->
 </head>
-
 <body>
-
-  <!-- Unity + Poki Loader -->
-  <script src="./master-loader.js"></script>
-
-  <!-- Safe fullscreen for mobile (won't break Poki) -->
-  <script>
-    setTimeout(() => {
-      document.addEventListener("click", () => {
-        document.documentElement.requestFullscreen?.().catch(() => {});
-      });
-    }, 2000);
-  </script>
-
+	<script src="./master-loader.js"></script>
+<!-- will be copied to the resulting body //-->
+<!-- will also be copied to the resulting body //-->
 </body>
 </html>
